@@ -2,41 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Futuristic Neon Sci-Fi Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Background Colors */
+    --background: 220 100% 2%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card & Surface Colors */
+    --card: 220 50% 8%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 50% 6%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Neon Color Palette */
+    --primary: 193 100% 50%;        /* Electric Blue */
+    --primary-foreground: 220 100% 2%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 271 76% 53%;       /* Electric Violet */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 328 100% 54%;         /* Neon Pink */
+    --accent-foreground: 0 0% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 50% 15%;
+    --muted-foreground: 220 10% 60%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 50% 20%;
+    --input: 220 50% 12%;
+    --ring: 193 100% 50%;
 
-    --radius: 0.5rem;
+    /* Neon Glow Colors */
+    --neon-blue: 193 100% 50%;
+    --neon-violet: 271 76% 53%;
+    --neon-pink: 328 100% 54%;
+    --neon-cyan: 180 100% 50%;
+
+    /* Glassmorphism */
+    --glass: 220 50% 10%;
+    --glass-border: 220 50% 25%;
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -94,12 +105,141 @@ All colors MUST be HSL.
   }
 }
 
+/* Neon Gradients */
+    --gradient-neon-primary: linear-gradient(135deg, hsl(var(--neon-blue)), hsl(var(--neon-violet)));
+    --gradient-neon-secondary: linear-gradient(135deg, hsl(var(--neon-violet)), hsl(var(--neon-pink)));
+    --gradient-neon-tertiary: linear-gradient(135deg, hsl(var(--neon-pink)), hsl(var(--neon-cyan)));
+    --gradient-radial: radial-gradient(circle, hsl(var(--neon-blue) / 0.2), transparent 70%);
+
+    /* Animations */
+    --transition-glow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Keep existing dark mode values but override for consistency */
+    --background: 220 100% 2%;
+    --foreground: 0 0% 98%;
+    --card: 220 50% 8%;
+    --card-foreground: 0 0% 95%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
+}
+
+@layer components {
+  /* Neon Glow Effects */
+  .neon-glow {
+    filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.5))
+            drop-shadow(0 0 20px hsl(var(--primary) / 0.3))
+            drop-shadow(0 0 30px hsl(var(--primary) / 0.1));
+  }
+
+  .neon-border {
+    border: 1px solid hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.3),
+                inset 0 0 10px hsl(var(--primary) / 0.1);
+  }
+
+  /* Glassmorphism */
+  .glass-panel {
+    background: hsl(var(--glass) / 0.2);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+    box-shadow: 0 8px 32px hsl(var(--background) / 0.3);
+  }
+
+  /* Animated Circuit Border */
+  .circuit-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .circuit-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    background: var(--gradient-neon-primary);
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    animation: circuit-pulse 3s ease-in-out infinite;
+  }
+
+  /* Floating Animation */
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .float-slow {
+    animation: float-slow 8s ease-in-out infinite;
+  }
+
+  /* Glow Text */
+  .glow-text {
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.5),
+                 0 0 20px hsl(var(--primary) / 0.3),
+                 0 0 30px hsl(var(--primary) / 0.1);
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-gpu {
+    transform: translateZ(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+@keyframes circuit-pulse {
+  0%, 100% { 
+    background: var(--gradient-neon-primary);
+    opacity: 0.7;
+  }
+  33% { 
+    background: var(--gradient-neon-secondary);
+    opacity: 1;
+  }
+  66% { 
+    background: var(--gradient-neon-tertiary);
+    opacity: 0.8;
+  }
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.8))
+            drop-shadow(0 0 30px hsl(var(--secondary) / 0.4));
+  }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
